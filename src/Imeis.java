@@ -8,19 +8,20 @@ import java.util.regex.Pattern;
  * This program will categorize the imes in the competitors database
  */
 public class Imeis {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception{
         //String fileName = args[0];
-        String fileName = "D:\\myScripts\\Imeis\\test.xls";
+        String fileName = "D:\\myScripts\\Imeis\\test.xlsx";
 
         //find filetype
         FileClassifier fileClassifier = new FileClassifier();
         String fileType = fileClassifier.classify(fileName);
 
+        Reader reader = new Reader(fileType, fileName);
 
-        //for each registry
-            //read the description field and pass it to a calssifier function
+        Map<String, String> imeis = reader.read();
 
-            //update the category field with the result
+        System.out.println(imeis);
+        //update the category field with the result
 
         //end.
     }
