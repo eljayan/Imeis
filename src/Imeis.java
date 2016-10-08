@@ -1,5 +1,7 @@
+import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -8,22 +10,37 @@ import java.util.regex.Pattern;
  * This program will categorize the imes in the competitors database
  */
 public class Imeis {
-    public static void main(String[] args) throws Exception{
-        //String fileName = args[0];
-        String fileName = "D:\\myScripts\\Imeis\\test.xlsx";
+    public static void main(String[] args){
+        try {
+            String fileName = args[0];
+            //String fileName = "D:\\myScripts\\Imeis\\test3.xlsx";
+            String directory = new File(fileName).getParent();
 
-        //find filetype
-        FileClassifier fileClassifier = new FileClassifier();
-        String fileType = fileClassifier.classify(fileName);
+            //find filetype
+            FileClassifier fileClassifier = new FileClassifier();
+            String fileType = fileClassifier.classify(fileName);
 
-        Reader reader = new Reader(fileType, fileName);
+            Reader reader = new Reader(fileType, fileName);
 
-        Map<String, String> imeis = reader.read();
+            Map<String, String> imeis = reader.read();
 
-        System.out.println(imeis);
-        //update the category field with the result
+            Writer.write(imeis, directory);
 
-        //end.
+            System.out.println("Process completed.");
+            //update the category field with the result
+//            BufferedReader message = new BufferedReader(new InputStreamReader(System.in));
+//            message.read();
+            Scanner message = new Scanner(System.in);
+            message.nextLine();
+
+            //end.
+        }catch (Exception err){
+            System.out.println("An error ocurred.");
+            System.out.println(err.getMessage());
+            Scanner message = new Scanner(System.in);
+            message.nextLine();
+        };
+
     }
 }
 

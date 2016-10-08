@@ -1,0 +1,15 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="Imeis:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/Imeis_jar</output-path>
+    <root id="archive" name="Imeis.jar">
+      <element id="module-output" name="Imeis" />
+      <element id="extracted-dir" path="C:/Program Files (x86)/Java/jdk1.8.0_91/lib/poi-3.14/xmlbeans-2.6.0.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="C:/Program Files (x86)/Java/jdk1.8.0_91/lib/poi-3.14/poi-3.14-20160307.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="C:/Program Files (x86)/Java/jdk1.8.0_91/lib/poi-3.14/poi-ooxml-3.14-20160307.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="C:/Program Files (x86)/Java/jdk1.8.0_91/lib/poi-3.14/poi-examples-3.14-20160307.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="C:/Program Files (x86)/Java/jdk1.8.0_91/lib/poi-3.14/poi-excelant-3.14-20160307.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="C:/Program Files (x86)/Java/jdk1.8.0_91/lib/poi-3.14/poi-scratchpad-3.14-20160307.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="C:/Program Files (x86)/Java/jdk1.8.0_91/lib/poi-3.14/poi-ooxml-schemas-3.14-20160307.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>

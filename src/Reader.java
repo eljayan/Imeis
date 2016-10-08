@@ -9,9 +9,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -77,9 +75,11 @@ class XLSXReader{
 
                 //if it is an IMEI number
                 if (Imei.check(cellValue)){
-                    String imeiValue = Imei.extract(cellValue);
+                    List<String> imeiValues = Imei.extract(cellValue);
                     //agrega al diccionario
-                    imeiDict.put(imeiValue, imeiValue);
+                    for (String imei:imeiValues){
+                        imeiDict.put(imei, imei);
+                    }
 
                 }
 
@@ -115,9 +115,12 @@ class XLSReader{
 
                 //if it is an IMEI number
                 if (Imei.check(cellValue)){
-                    String imeiValue = Imei.extract(cellValue);
+                    List<String> imeiValues = Imei.extract(cellValue);
                     //agrega al diccionario
-                    imeiDict.put(imeiValue, imeiValue);
+                    for (String imei:imeiValues){
+
+                        imeiDict.put(imei, imei);
+                    }
 
                 }
 
@@ -136,19 +139,23 @@ class Imei{
         return matcher.find();
     }
 
-    static String extract(String i){
+    static List<String> extract(String i){
+        List<String>imeiList = new ArrayList<String>();
         Pattern imeiPattern = Pattern.compile("\\b\\d{15}\\b");
         Matcher matcher = imeiPattern.matcher(i);
-        return matcher.group();
+        while (matcher.find()){
+            imeiList.add(matcher.group());
+        }
+        return imeiList;
     }
 }
 
-class test{
-    public static void main(String[] args) {
-        //String s = "860483030201203  860483030202219 PNTBBBB630900014";
-        String s = "PNTBBBB630900014 860483030201203";
-        System.out.println("String: " + s);
-        System.out.println("Imei: " + Imei.check(s));
-        System.out.println("Number: " + Imei.extract(s));
-    }
-}
+//class test{
+//    public static void main(String[] args) {
+//        String s = "860483030201203  860483030202219 86048303020221985 PNTBBBB630900014";
+//        //String s = "PNTBBBB630900014 860483030201203";
+//        System.out.println("String: " + s);
+//        System.out.println("Imei: " + Imei.check(s));
+//        System.out.println("Number: " + Imei.extract(s));
+//    }
+//}
