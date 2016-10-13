@@ -4,6 +4,7 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.DataFormatter;
 import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
@@ -54,11 +55,7 @@ class XLSXReader{
 
         Map<String, String>imeiDict = new HashMap<>();
 
-        //This is to retrieve sting value from cell.
-        DataFormatter dataFormatter = new DataFormatter();
-
         FileInputStream f = new FileInputStream(new File(fname));
-
         XSSFWorkbook workbook = new XSSFWorkbook(f);
         Integer sheetIndex = workbook.getActiveSheetIndex();
         XSSFSheet sheet = workbook.getSheetAt(sheetIndex);
@@ -67,25 +64,35 @@ class XLSXReader{
 
         while (rowIterator.hasNext()){
             Row row = rowIterator.next();
+            String cellValue;
 
             Iterator<Cell>cellIterator = row.cellIterator();
-            while (cellIterator.hasNext()){
+            while (cellIterator.hasNext()) {
                 Cell cell = cellIterator.next();
-                String cellValue = dataFormatter.formatCellValue(cell).trim();
+
+                //convert the cell to an xssf cell in order to use the getRawValueMethod
+                XSSFCell xcell = (XSSFCell) cell;
+
+                //0 is integer, 1 is string
+
+                if (xcell.getCellType() == 0) {
+                    cellValue = xcell.getRawValue();
+                } else {
+                    cellValue = xcell.getStringCellValue();
+                }
+
 
                 //if it is an IMEI number
-                if (Imei.check(cellValue)){
+                if (Imei.check(cellValue)) {
                     List<String> imeiValues = Imei.extract(cellValue);
                     //agrega al diccionario
-                    for (String imei:imeiValues){
+                    for (String imei : imeiValues) {
                         imeiDict.put(imei, imei);
                     }
 
+
                 }
-
             }
-
-
         }
     return imeiDict;
     }
