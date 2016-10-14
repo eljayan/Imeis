@@ -37,6 +37,7 @@ public class Imeis {
         }catch (Exception err){
             System.out.println("An error ocurred.");
             System.out.println(err.getMessage());
+            System.out.println(err.toString());
             Scanner message = new Scanner(System.in);
             message.nextLine();
         };

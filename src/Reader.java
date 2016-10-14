@@ -4,9 +4,11 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.DataFormatter;
 import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.xssf.model.SharedStringsTable;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.openxmlformats.schemas.spreadsheetml.x2006.main.CTRst;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -56,29 +58,44 @@ class XLSXReader{
         Map<String, String>imeiDict = new HashMap<>();
 
         FileInputStream f = new FileInputStream(new File(fname));
+
         XSSFWorkbook workbook = new XSSFWorkbook(f);
+
+        //the excel file componen that holds all the strings in the workbook
+        SharedStringsTable sharedStringsTable = workbook.getSharedStringSource();
+
         Integer sheetIndex = workbook.getActiveSheetIndex();
+
         XSSFSheet sheet = workbook.getSheetAt(sheetIndex);
 
         Iterator<Row> rowIterator = sheet.rowIterator();
 
+
         while (rowIterator.hasNext()){
             Row row = rowIterator.next();
             String cellValue;
+            CTRst stringTable;
 
             Iterator<Cell>cellIterator = row.cellIterator();
             while (cellIterator.hasNext()) {
                 Cell cell = cellIterator.next();
-
                 //convert the cell to an xssf cell in order to use the getRawValueMethod
                 XSSFCell xcell = (XSSFCell) cell;
 
-                //0 is integer, 1 is string
-
+                //0 is integer, 1 is string, 3 is blank cell
                 if (xcell.getCellType() == 0) {
+                    //from integer cells i can get the string value directly
                     cellValue = xcell.getRawValue();
-                } else {
-                    cellValue = xcell.getStringCellValue();
+                }else if (xcell.getCellType() == 3){
+                    continue;
+                }else {
+                    //from string cells it has to lookup the value in teh stringTable
+                    String index = xcell.getRawValue();
+                    int sharedStringTableIndex = Integer.parseInt(index);
+                    stringTable = sharedStringsTable.getEntryAt(sharedStringTableIndex);
+                    cellValue = stringTable.getT();
+
+                    //cellValue = xcell.getStringCellValue();
                 }
 
 
