@@ -6,9 +6,9 @@ import java.util.Map;
  * the method write() creates the csv file in the parent directory
  */
 public class Writer {
-    static void write(Map<String, String> dict, String saveDirectory)throws Exception{
+    static void write(Map<String, String> dict, String saveDirectory, String fileName)throws Exception{
         //open file
-        FileWriter writeFile = new FileWriter(saveDirectory+"/imeis.csv");
+        FileWriter writeFile = new FileWriter(saveDirectory + "/" + fileName + ".csv");
 
         //start writing
         for (String k : dict.keySet()){

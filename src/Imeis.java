@@ -12,8 +12,8 @@ import java.util.regex.Pattern;
 public class Imeis {
     public static void main(String[] args){
         try {
-            //String fileName = args[0];
-            String fileName = "//10.192.69.41/SupplyChainServer/CClearance/Documents/WT161011083H/New Microsoft Excel Worksheet.xlsx";
+            String fileName = args[0];
+            //String fileName = "//10.192.69.41/SupplyChainServer/CClearance/Documents/WT161011083H/New Microsoft Excel Worksheet.xlsx";
             String directory = new File(fileName).getParent();
 
             //find filetype
@@ -24,12 +24,18 @@ public class Imeis {
 
             Map<String, String> imeis = reader.read();
 
-            Writer.write(imeis, directory);
+            ModelSplit modelSplit = new ModelSplit();
+            Map<String, Map<String, String>>splitModels = modelSplit.split(imeis);
+
+            for (String k: splitModels.keySet()){
+
+                Map<String,String>modelDict = splitModels.get(k);
+
+                Writer.write(modelDict, directory, k);
+            }
+
 
             System.out.println("Process completed.");
-            //update the category field with the result
-//            BufferedReader message = new BufferedReader(new InputStreamReader(System.in));
-//            message.read();
             Scanner message = new Scanner(System.in);
             message.nextLine();
 
