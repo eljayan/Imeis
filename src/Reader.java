@@ -82,6 +82,7 @@ class XLSXReader{
                 //convert the cell to an xssf cell in order to use the getRawValueMethod
                 XSSFCell xcell = (XSSFCell) cell;
 
+                //get the string value from a cell
                 //0 is integer, 1 is string, 3 is blank cell
                 if (xcell.getCellType() == 0) {
                     //from integer cells i can get the string value directly
@@ -90,12 +91,18 @@ class XLSXReader{
                     continue;
                 }else {
                     //from string cells it has to lookup the value in teh stringTable
-                    String index = xcell.getRawValue();
-                    int sharedStringTableIndex = Integer.parseInt(index);
-                    stringTable = sharedStringsTable.getEntryAt(sharedStringTableIndex);
-                    cellValue = stringTable.getT();
+                    //or get the cel value directly
 
-                    //cellValue = xcell.getStringCellValue();
+                    String index = xcell.getRawValue();
+
+                    if (index != null){
+                        int sharedStringTableIndex = Integer.parseInt(index);
+                        stringTable = sharedStringsTable.getEntryAt(sharedStringTableIndex);
+                        cellValue = stringTable.getT();
+                    }else{
+                        cellValue = xcell.getStringCellValue();
+                    }
+
                 }
 
 

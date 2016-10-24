@@ -13,7 +13,7 @@ public class Imeis {
     public static void main(String[] args){
         try {
             String fileName = args[0];
-            //String fileName = "//10.192.69.41/SupplyChainServer/CClearance/Documents/WT161011083H/New Microsoft Excel Worksheet.xlsx";
+            //String fileName = "\\\\10.192.69.41\\SupplyChainServer\\CClearance\\Documents\\0002181609020MDGA12K\\2016-10-24_Ecuador_0002181609020MDGA12K_30_90134831_51090TLA.xlsx";
             String directory = new File(fileName).getParent();
 
             //find filetype
