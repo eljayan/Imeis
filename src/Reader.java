@@ -106,14 +106,16 @@ class XLSXReader{
                 }
 
 
-                //if it is an IMEI number
-                if (Imei.check(cellValue)) {
-                    List<String> imeiValues = Imei.extract(cellValue);
-                    //agrega al diccionario
-                    for (String imei : imeiValues) {
-                        imeiDict.put(imei, imei);
-                    }
+                //create IMEI object
+                Imei imei = new Imei(cellValue);
 
+                if (imei.check()){
+                    List<String> imeiValues = imei.extract();
+                    //agrega al diccionario
+                    for (String imeiNum:imeiValues){
+
+                        imeiDict.put(imeiNum, imeiNum);
+                    }
 
                 }
             }
@@ -144,13 +146,15 @@ class XLSReader{
 
                 String cellValue = dataFormatter.formatCellValue(cell).trim();
 
-                //if it is an IMEI number
-                if (Imei.check(cellValue)){
-                    List<String> imeiValues = Imei.extract(cellValue);
-                    //agrega al diccionario
-                    for (String imei:imeiValues){
+                //create IMEI object
+                Imei imei = new Imei(cellValue);
 
-                        imeiDict.put(imei, imei);
+                if (imei.check()){
+                    List<String> imeiValues = imei.extract();
+                    //agrega al diccionario
+                    for (String imeiNum:imeiValues){
+
+                        imeiDict.put(imeiNum, imeiNum);
                     }
 
                 }
@@ -164,22 +168,34 @@ class XLSReader{
 
 class Imei{
 
-    static Boolean check(String i) {
-        Pattern imeiPattern = Pattern.compile("\\b\\d{15}\\b");
-        Matcher matcher = imeiPattern.matcher(i);
-        return matcher.find();
+    String imeiNumber;
+
+    public Imei(String imei){
+        imeiNumber = imei ;
     }
 
-    static List<String> extract(String i){
+    public Boolean check() {
+        Pattern imeiPattern = Pattern.compile("\\b\\d{15}\\b");
+        Matcher matcher = imeiPattern.matcher(imeiNumber);
+        if (matcher.find()){
+            return luhn(matcher.group());
+        }else{
+            return false;
+        }
+    }
+
+    List<String> extract(){
         List<String>imeiList = new ArrayList<String>();
         Pattern imeiPattern = Pattern.compile("\\b\\d{15}\\b");
-        Matcher matcher = imeiPattern.matcher(i);
+        Matcher matcher = imeiPattern.matcher(imeiNumber);
         while (matcher.find()){
             imeiList.add(matcher.group());
         }
         return imeiList;
     }
-    boolean luhn(String i){
+    boolean luhn(String imeiNumber){
+        imeiNumber = this.imeiNumber;
+
         return true;
     }
 }
