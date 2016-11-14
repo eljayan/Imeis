@@ -105,19 +105,18 @@ class XLSXReader{
 
                 }
 
+                String [] valuesInCell = cellValue.split(" ");
 
-                //create IMEI object
-                Imei imei = new Imei(cellValue);
-
-                if (imei.check()){
-                    List<String> imeiValues = imei.extract();
-                    //agrega al diccionario
-                    for (String imeiNum:imeiValues){
-
-                        imeiDict.put(imeiNum, imeiNum);
+                for (String value:valuesInCell){
+                    //create IMEI object
+                    Imei imei = new Imei(value);
+                    if (imei.check()){
+                        imeiDict.put(imei.imeiNumber, imei.imeiNumber);
                     }
-
                 }
+
+
+
             }
         }
     return imeiDict;
@@ -146,17 +145,14 @@ class XLSReader{
 
                 String cellValue = dataFormatter.formatCellValue(cell).trim();
 
-                //create IMEI object
-                Imei imei = new Imei(cellValue);
+                String [] valuesInCell = cellValue.split(" ");
 
-                if (imei.check()){
-                    List<String> imeiValues = imei.extract();
-                    //agrega al diccionario
-                    for (String imeiNum:imeiValues){
-
-                        imeiDict.put(imeiNum, imeiNum);
+                for (String value:valuesInCell){
+                    //create IMEI object
+                    Imei imei = new Imei(value);
+                    if (imei.check()){
+                        imeiDict.put(imei.imeiNumber, imei.imeiNumber);
                     }
-
                 }
 
             }
@@ -175,10 +171,11 @@ class Imei{
     }
 
     public Boolean check() {
-        Pattern imeiPattern = Pattern.compile("\\b\\d{15}\\b");
+        Pattern imeiPattern = Pattern.compile("\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d");
         Matcher matcher = imeiPattern.matcher(imeiNumber);
         if (matcher.find()){
-            return luhn(matcher.group());
+            String imeiToCheck = matcher.group();
+            return luhn(imeiToCheck);
         }else{
             return false;
         }
@@ -195,17 +192,55 @@ class Imei{
     }
     boolean luhn(String imeiNumber){
         imeiNumber = this.imeiNumber;
+        int[]digitsList = new int[14];
+        int[]sumDigits = new int[14];
 
-        return true;
+        for (int i = 0; i< 14; i++){
+            digitsList[i] = Integer.parseInt(String.valueOf(imeiNumber.charAt(i)));
+        }
+
+        for (int i = 0; i < 14; i++){
+            if (i ==0 ){
+                sumDigits[i] = digitsList[i];
+            }else if (i % 2 == 0){
+                sumDigits[i] = digitsList [i];
+            }else {
+                int digit = digitsList[i]*2;
+                if (digit <=9){
+                    sumDigits[i] = digit;
+                }else{
+                    sumDigits[i] = digit-9;
+                }
+            }
+        }
+
+        //sum the list
+        int digitsSum=0;
+        for (int d:sumDigits){
+            digitsSum+=d;
+        }
+
+        //multyply the sum
+        int multyply;
+
+        multyply = digitsSum * 9;
+
+        //get the las number
+        String multiplyResult = Integer.toString(multyply);
+
+        char checkSumDigit = multiplyResult.charAt(multiplyResult.length()-1);
+        char imeiCheckDigit = imeiNumber.charAt(imeiNumber.length()-1);
+
+        return checkSumDigit == imeiCheckDigit;
     }
 }
 
-//class test{
-//    public static void main(String[] args) {
-//        String s = "860483030201203  860483030202219 86048303020221985 PNTBBBB630900014";
-//        //String s = "PNTBBBB630900014 860483030201203";
-//        System.out.println("String: " + s);
-//        System.out.println("Imei: " + Imei.check(s));
-//        System.out.println("Number: " + Imei.extract(s));
-//    }
-//}
+class test{
+    public static void main(String[] args) {
+        String s = "860483030201203  860483030202219 86048303020221985 PNTBBBB630900014";
+        //String s = "PNTBBBB630900014 860483030201203";
+
+        Imei imei = new Imei("861334030120514");
+        System.out.println(imei.check());
+    }
+}
