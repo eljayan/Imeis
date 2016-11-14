@@ -171,7 +171,7 @@ class Imei{
     }
 
     public Boolean check() {
-        Pattern imeiPattern = Pattern.compile("\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d");
+        Pattern imeiPattern = Pattern.compile("\\b\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\b");
         Matcher matcher = imeiPattern.matcher(imeiNumber);
         if (matcher.find()){
             String imeiToCheck = matcher.group();
@@ -196,6 +196,7 @@ class Imei{
         int[]sumDigits = new int[14];
 
         for (int i = 0; i< 14; i++){
+            System.out.println(imeiNumber);
             digitsList[i] = Integer.parseInt(String.valueOf(imeiNumber.charAt(i)));
         }
 
@@ -240,7 +241,7 @@ class test{
         String s = "860483030201203  860483030202219 86048303020221985 PNTBBBB630900014";
         //String s = "PNTBBBB630900014 860483030201203";
 
-        Imei imei = new Imei("861334030120514");
+        Imei imei = new Imei("021611070000312");
         System.out.println(imei.check());
     }
 }

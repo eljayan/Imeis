@@ -12,8 +12,8 @@ import java.util.regex.Pattern;
 public class Imeis {
     public static void main(String[] args){
         try {
-            String fileName = args[0];
-            //String fileName = "\\\\10.192.69.41\\SupplyChainServer\\CClearance\\Documents\\0002181609020MDGA12K\\2016-10-24_Ecuador_0002181609020MDGA12K_30_90134831_51090TLA.xlsx";
+            //String fileName = args[0];
+            String fileName = "D:\\myScripts\\Imeis\\test5.XLSX";
             String directory = new File(fileName).getParent();
 
             //find filetype
@@ -42,6 +42,7 @@ public class Imeis {
             //end.
         }catch (Exception err){
             System.out.println("An error ocurred.");
+            err.printStackTrace();
             System.out.println(err.getMessage());
             System.out.println(err.toString());
             Scanner message = new Scanner(System.in);
