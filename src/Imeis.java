@@ -12,8 +12,8 @@ import java.util.regex.Pattern;
 public class Imeis {
     public static void main(String[] args){
         try {
-            //String fileName = args[0];
-            String fileName = "D:\\myScripts\\Imeis\\test5.XLSX";
+            String fileName = args[0];
+            //String fileName = "D:\\myScripts\\Imeis\\test5.XLSX";
             String directory = new File(fileName).getParent();
 
             //find filetype

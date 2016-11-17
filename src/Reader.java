@@ -196,7 +196,6 @@ class Imei{
         int[]sumDigits = new int[14];
 
         for (int i = 0; i< 14; i++){
-            System.out.println(imeiNumber);
             digitsList[i] = Integer.parseInt(String.valueOf(imeiNumber.charAt(i)));
         }
 
